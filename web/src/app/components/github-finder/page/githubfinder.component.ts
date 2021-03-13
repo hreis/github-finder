@@ -42,8 +42,6 @@ export class GithubfinderComponent implements OnInit {
         catchError((err: HttpErrorResponse) => {
           this.success = !this.success;
 
-          debugger
-
           if (err.status === 404) this.notificationService.alert('Github user not found.');
           else this.notificationService.error(err.error.message);
 

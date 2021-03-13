@@ -1,5 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { GithubuserEditDialogComponent } from 'src/app/shared/components/dialog/githubuser-edit-dialog/page/githubuser-edit-dialog.component';
+import { NoteGithubUserComponent } from 'src/app/shared/components/note-github-user/components/note-github-user/note-github-user.component';
 import { GitHubRepository } from '../../model/githubRepository';
 import { GitHubUser } from '../../model/githubUser';
 import { Language } from '../../model/Language';
@@ -15,6 +18,7 @@ export class CardGithubProfileComponent implements OnInit {
 
   @Input() userReposLib: (GitHubUser | GitHubRepository[])[];
   @Output() sendToPreviouPage: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild(NoteGithubUserComponent) noteGithubUserComponent: NoteGithubUserComponent
 
   githubuser: GitHubUser;
   repositories: GitHubRepository[] = [];
@@ -24,9 +28,7 @@ export class CardGithubProfileComponent implements OnInit {
   watchers: number = 0;
   forks: number = 0;
 
-  constructor(private _formBuilder: FormBuilder) {
-
-  }
+  constructor(private _formBuilder: FormBuilder, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -44,8 +46,7 @@ export class CardGithubProfileComponent implements OnInit {
       fcPublicRepositories: [{ value: '', disabled: true }],
       fcStars: [{ value: '', disabled: true }],
       fcWatchers: [{ value: '', disabled: true }],
-      fcForks: [{ value: '', disabled: true }],
-      fcNotes: [''],
+      fcForks: [{ value: '', disabled: true }]
     });
   }
 
@@ -85,7 +86,6 @@ export class CardGithubProfileComponent implements OnInit {
       fcStars: this.stars,
       fcWatchers: this.watchers,
       fcForks: this.forks,
-      fcNotes: ''
     })
   }
 
@@ -113,6 +113,16 @@ export class CardGithubProfileComponent implements OnInit {
 
   goBack() {
     this.sendToPreviouPage.emit(true);
+  }
+
+  editGihubUser() {
+    debugger
+
+    const note = this.noteGithubUserComponent.formNote.get('fcNotes')?.value;
+
+    this.dialog.open(GithubuserEditDialogComponent, {
+      data: { userId: this.githubuser.id, note }
+    })
   }
 
 }

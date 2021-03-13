@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getGithubRepositoriesController = exports.getGithubRepositoriesUseCase = void 0;
+const getGithubRepositoriesUseCase_1 = require("./getGithubRepositoriesUseCase");
+const getGithubRepositoriesController_1 = require("./getGithubRepositoriesController");
+const SqlAlertsRepository_1 = require("../../repositories/implementations/githubInfo/SqlAlertsRepository");
+const sqlGithubInfoRepository = new SqlAlertsRepository_1.SqlGithubInfoRepository();
+const getGithubRepositoriesUseCase = new getGithubRepositoriesUseCase_1.GetGithubRepositoriesUseCase(sqlGithubInfoRepository);
+exports.getGithubRepositoriesUseCase = getGithubRepositoriesUseCase;
+const getGithubRepositoriesController = new getGithubRepositoriesController_1.GetGithubRepositoriesController(getGithubRepositoriesUseCase);
+exports.getGithubRepositoriesController = getGithubRepositoriesController;

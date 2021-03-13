@@ -39,3 +39,12 @@
  :host ::ng-deep.mat-card-header-text {
     margin: 0;
   }
+
+  mat-icon {
+    cursor: pointer;
+    transition: 0.5s;
+  }
+
+  mat-icon:hover {
+    color: #000f82;
+  }

@@ -6,6 +6,8 @@
     <mat-card-header>
         <mat-card-title>{{githubuser.name}}</mat-card-title>
         <mat-card-subtitle style="word-break: break-all;max-width: 30em;">{{githubuser.bio}}</mat-card-subtitle>
+        <mat-icon (click)="editGihubUser()">edit</mat-icon>
+        <mat-icon>replay</mat-icon>
     </mat-card-header>
 
     <mat-card-content>
@@ -56,14 +58,9 @@
                 </div>
             </div>
 
-            <div >
-                <mat-form-field appearance="fill" style="width: 16em; margin-top: 10px;">
-                    <mat-label>Notes</mat-label>
-                    <textarea matInput formControlName="fcNotes"></textarea>
-                </mat-form-field>
-            </div>
-
         </form>
+
+        <app-note-github-user [userId]="githubuser.id"></app-note-github-user>
 
     </mat-card-content>
 

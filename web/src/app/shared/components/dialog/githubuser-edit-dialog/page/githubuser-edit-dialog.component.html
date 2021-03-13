@@ -1,0 +1,23 @@
+<mat-dialog-content class="mat-typography">
+
+    <mat-card class="card-dialog">
+
+        <mat-card-header>
+            <div mat-card-avatar class="header-image"></div>
+            <mat-card-title>Edit Github User</mat-card-title>
+            <mat-card-subtitle class="card-subtitle">
+                Menu that allows you to edit notes for an user.
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <app-note-github-user></app-note-github-user>
+        </mat-card-content>
+
+    </mat-card>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="save()" color="primary">Save</button>
+</mat-dialog-actions>

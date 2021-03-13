@@ -14,7 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { DialogModule } from 'src/app/shared/components/dialog/dialog.module';
+import { NoteGithubUserModule } from 'src/app/shared/components/note-github-user/note-github-user.module';
 
 @NgModule({
   declarations: [GithubfinderComponent, GithubFinderTextboxComponent, CardGithubProfileComponent],
@@ -30,7 +31,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    DialogModule,
+    NoteGithubUserModule
   ],
   providers: [
     NotificationService

@@ -3,7 +3,8 @@ import { IGithubInfoRepository } from '../../../repositories/githubInfo/IGithubI
 import { GitHubUser } from '../../../entities/githubInfo/githubUser';
 import * as axios from 'axios';
 import { GitHubRepository } from "../../../entities/githubInfo/githubRepository";
-
+import * as pg from '../../../database/index';
+import { GitHubUserNote } from "../../../entities/githubInfo/githubUserNote";
 export class SqlGithubInfoRepository implements IGithubInfoRepository {
 
     async getGitHubUser(username: string): Promise<GitHubUser> {
@@ -37,7 +38,7 @@ export class SqlGithubInfoRepository implements IGithubInfoRepository {
 
             await axios.default.get(`https://api.github.com/users/${username}/repos`)
                 .then((data) => {
-                    if(data.data) {
+                    if (data.data) {
                         githubrepositories = data.data.filter(x => x.language != null) as GitHubRepository[];
                     }
                 })
@@ -51,6 +52,78 @@ export class SqlGithubInfoRepository implements IGithubInfoRepository {
         catch (err) {
             logger.error(err);
             throw new Error('Error to retrieve github repositories');
+        }
+    }
+
+    async insertUserNote(userId: number, note: string): Promise<boolean> {
+
+        try {
+
+            let inserted: boolean = false;
+
+            await pg.default('user_notes').insert({
+                user_id: userId,
+                note: note
+            }).then(() => {
+                inserted = true;
+            }).catch(err => {
+                inserted = false;
+                throw new Error(err);
+            });
+
+            return inserted;
+        }
+        catch (err) {
+            logger.error(err);
+            throw new Error('Error to insert github user note');
+        }
+    }
+
+    async updateUserNote(userId: number, note: string): Promise<boolean> {
+
+        try {
+
+            let updated: boolean = false;
+
+            await pg.default('user_notes').update({
+                note: note
+            }).where('user_id', userId)
+            .then(() => {
+                updated = true;
+            }).catch(err => {
+                updated = false;
+                throw new Error(err);
+            });
+
+            return updated;
+        }
+        catch (err) {
+            logger.error(err);
+            throw new Error('Error to update github user note');
+        }
+    }
+
+    async getUserNoteById(userId: number): Promise<GitHubUserNote> {
+
+        try {
+
+            let usernote: GitHubUserNote = new GitHubUserNote(null);
+
+            await pg.default('user_notes').select('note')
+                .where('user_id', userId)
+                .first()
+                .then((data) => {
+                    usernote = data.note;
+                }).catch(err => {
+                    logger.error(err);
+                    throw new Error(err);
+                });
+
+            return usernote;
+        }
+        catch (err) {
+            logger.error(err);
+            throw new Error('Error to get github user note');
         }
     }
 
