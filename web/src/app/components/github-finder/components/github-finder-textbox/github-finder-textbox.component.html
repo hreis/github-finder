@@ -1,0 +1,11 @@
+<form [formGroup]="formGroup" class="form-search-github-user" (ngSubmit)="onSubmit()">
+
+  <mat-form-field appearance="fill">
+    <mat-label>user name</mat-label>
+    <input matInput formControlName="fcUserName" autocomplete="off" required>
+  </mat-form-field>
+
+  <button mat-mini-fab color="primary" [disabled]="!formGroup.valid">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>

@@ -1,0 +1,70 @@
+<button mat-mini-fab color="primary" (click)="goBack()">
+    <mat-icon>search</mat-icon>
+</button>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{githubuser.name}}</mat-card-title>
+        <mat-card-subtitle style="word-break: break-all;max-width: 30em;">{{githubuser.bio}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+        <form [formGroup]="formGroup">
+
+            <div style="display: flex;align-items: center;">
+                <div>
+                    <img src="{{githubuser.avatar_url}}" class="github-user-avatar">
+                </div>
+
+                <div style="display: flex; flex-direction: column; margin-left: 40px;">
+
+
+                    <mat-form-field>
+                        <mat-label>Followers</mat-label>
+                        <input matInput formControlName="fcFollowers">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Public Repositories</mat-label>
+                        <input matInput formControlName="fcPublicRepositories">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Stars</mat-label>
+                        <input matInput formControlName="fcStars">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Watchers</mat-label>
+                        <input matInput formControlName="fcWatchers">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Forks</mat-label>
+                        <input matInput formControlName="fcForks">
+                    </mat-form-field>
+
+
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <div *ngFor="let item of distinctArray" style="display: flex;">
+                    <div class="grid-item">{{item.language}}</div>
+                    <div class="grid-item-percentage">{{item.percentage}}</div>
+                </div>
+            </div>
+
+            <div >
+                <mat-form-field appearance="fill" style="width: 16em; margin-top: 10px;">
+                    <mat-label>Notes</mat-label>
+                    <textarea matInput formControlName="fcNotes"></textarea>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </mat-card-content>
+
+</mat-card>

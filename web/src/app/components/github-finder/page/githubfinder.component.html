@@ -1,0 +1,13 @@
+<app-github-finder-textbox *ngIf="!success" class="search-github-user"
+    (formHasBeenSubmited)="formHasBeenSubmited($event)">
+</app-github-finder-textbox>
+
+<div *ngIf="userReposLib$ | async as userReposLib">
+    <app-card-github-profile (sendToPreviouPage)="previouPage($event)"
+     class="card-github-profile" [userReposLib]="userReposLib"></app-card-github-profile>
+</div>
+
+<mat-card *ngIf="loading" class="card-loading">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</mat-card>

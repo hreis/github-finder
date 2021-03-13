@@ -1,0 +1,1 @@
+export * as firaAssets from './firaAssets';

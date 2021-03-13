@@ -1,0 +1,41 @@
+.github-user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.github-user-avatar {
+    height: 20em;
+}
+
+.community-infos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-container {
+    margin-top: 2em;
+    display: grid;
+    grid-template-columns: 2 auto auto;
+  }
+
+  .grid-item {
+    border: 1px solid #cacaca;
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    width: 16em;
+  }
+
+  .grid-item-percentage {
+    border: 1px solid #cacaca;
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    width: 6em;
+  }
+
+ :host ::ng-deep.mat-card-header-text {
+    margin: 0;
+  }
