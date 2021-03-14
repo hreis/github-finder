@@ -51,7 +51,6 @@ export class CardGithubProfileComponent implements OnInit {
   }
 
   setDistinctLanguage() {
-    debugger
     this.distinctArray = this.languages.filter(x => x.language != null).filter((value, index, self) => self.map(x => x.language).indexOf(value.language) == index);
   }
 
@@ -69,11 +68,9 @@ export class CardGithubProfileComponent implements OnInit {
 
   setQtyAndPercentageLanguage() {
     this.distinctArray.forEach((e) => {
-      debugger
       let qty = this.languages.filter(x => x.language === e.language).length;
       e.count = qty;
-      let teste = ((qty / this.languages.filter(x => x.language != null).length) * 100).toFixed(2);
-      e.percentage = parseFloat(teste);
+      e.percentage = parseFloat(((qty / this.languages.filter(x => x.language != null).length) * 100).toFixed(2));
     });
   }
 

@@ -11,16 +11,16 @@ export class GithubFinderTextboxComponent implements OnInit {
   formGroup: FormGroup;
   @Output() formHasBeenSubmited: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private _formBuilder: FormBuilder) { 
-    
+  constructor(private _formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  initForm() {
     this.formGroup = this._formBuilder.group({
       fcUserName: ['', Validators.required],
     });
-
-  }
-
-  ngOnInit(): void {
-    
   }
 
   onSubmit() {

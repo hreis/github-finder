@@ -42,8 +42,8 @@ export class GithubuserEditDialogComponent implements OnInit, OnDestroy {
       .subscribe(seted => {
 
         if (seted) {
-          this.notificationService.success('Successfully Edited')
-          this.note = note
+          this.notificationService.success('Successfully Edited');
+          this.note = note;
         };
       }, err => {
         this.notificationService.error(err);

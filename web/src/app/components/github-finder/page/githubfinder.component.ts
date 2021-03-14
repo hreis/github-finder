@@ -28,25 +28,29 @@ export class GithubfinderComponent implements OnInit {
 
     this.loading = !this.loading;
     this.success = !this.success;
+    this.getGithubUser(username);
+    
+  }
 
+  getGithubUser(username: string) {
     this.userReposLib$ = this.githubFinderService.getGithubUser(username)
-      .pipe(
-        concatMap(
-          repositories => this.githubFinderService.
-            getGithubRepositoriesByUser(username)
-            .pipe(map(user => [repositories, user])
-            )),
-        finalize(() => {
-          this.loading = !this.loading;
-        }),
-        catchError((err: HttpErrorResponse) => {
-          this.success = !this.success;
+    .pipe(
+      concatMap(
+        repositories => this.githubFinderService.
+          getGithubRepositoriesByUser(username)
+          .pipe(map(user => [repositories, user])
+          )),
+      finalize(() => {
+        this.loading = !this.loading;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.success = !this.success;
 
-          if (err.status === 404) this.notificationService.alert('Github user not found.');
-          else this.notificationService.error(err.error.message);
+        if (err.status === 404) this.notificationService.alert('Github user was not found.');
+        else this.notificationService.error(err.error.message);
 
-          throw new Error(err.message);
-        }));
+        throw new Error(err.message);
+      }));
   }
 
   previouPage() {

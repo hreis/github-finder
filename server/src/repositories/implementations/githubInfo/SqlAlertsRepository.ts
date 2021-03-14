@@ -33,42 +33,6 @@ export class SqlGithubInfoRepository implements IGithubInfoRepository {
 
     }
 
-    async getNumberOfContributors(username: string, repository: string): Promise<number> {
-
-        try {
-
-            let githubrepositories: any[] = [];
-            let page = 1;
-            let another_page: boolean = true;
-
-            let query = `${this.baseUrl}/repos/${username}/${repository}/contributors?page=${page}&per_page=100`;
-
-            while (another_page) {
-                await axios.default.get(query)
-                    .then((data) => {
-                        if (data.headers.link) {
-                            if (!data.headers.link.includes('next')) another_page = false;
-
-                            page++;
-                            query = `${this.baseUrl}/users/${username}/repos?page=${page}&per_page=100`;
-                        }
-                        else another_page = false;
-
-                        githubrepositories = githubrepositories.concat(data.data);
-
-                    }).catch(err => {
-                        throw new Error(err);
-                    });
-            }
-
-            return githubrepositories.length;
-        }
-        catch (err) {
-            logger.error(err);
-            throw new Error('Error to retrieve contributors of this repository');
-        }
-    }
-
     async getRepositories(username: string): Promise<GitHubRepository[]> {
 
         try {
@@ -96,9 +60,6 @@ export class SqlGithubInfoRepository implements IGithubInfoRepository {
                         throw new Error(err);
                     });
             }
-
-            //if (githubrepositories)
-                //githubrepositories = githubrepositories.filter(x => x.owner.id === 59545);
 
             return githubrepositories;
         }
@@ -229,6 +190,42 @@ export class SqlGithubInfoRepository implements IGithubInfoRepository {
         catch (err) {
             logger.error(err);
             throw new Error('Error to get github user note');
+        }
+    }
+
+    async getNumberOfContributors(username: string, repository: string): Promise<number> {
+
+        try {
+
+            let githubrepositories: any[] = [];
+            let page = 1;
+            let another_page: boolean = true;
+
+            let query = `${this.baseUrl}/repos/${username}/${repository}/contributors?page=${page}&per_page=100`;
+
+            while (another_page) {
+                await axios.default.get(query)
+                    .then((data) => {
+                        if (data.headers.link) {
+                            if (!data.headers.link.includes('next')) another_page = false;
+
+                            page++;
+                            query = `${this.baseUrl}/users/${username}/repos?page=${page}&per_page=100`;
+                        }
+                        else another_page = false;
+
+                        githubrepositories = githubrepositories.concat(data.data);
+
+                    }).catch(err => {
+                        throw new Error(err);
+                    });
+            }
+
+            return githubrepositories.length;
+        }
+        catch (err) {
+            logger.error(err);
+            throw new Error('Error to retrieve contributors of this repository');
         }
     }
 

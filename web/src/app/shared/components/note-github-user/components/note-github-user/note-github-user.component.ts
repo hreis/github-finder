@@ -17,8 +17,6 @@ export class NoteGithubUserComponent implements OnInit {
   @Input() userId: number;
   @Input() note: string;
 
-  //note$: Observable<GitHubUserNote>;
-
   constructor(private _formBuilder: FormBuilder,
     private githubUserNoteService: GithubUserNoteService,
     private notificationService: NotificationService) { }
@@ -26,14 +24,15 @@ export class NoteGithubUserComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
-    if (this.userId) {
-      this.githubUserNoteService.getUserNoteById(this.userId).subscribe(data => {
-        if (data.note) this.formNote.get('fcNotes')?.setValue(data.note)
-      }, err => {
-        this.notificationService.error(err);
-      });
-    }
+    if (this.userId) this.getUserNoteById();
+  }
 
+  getUserNoteById() {
+    this.githubUserNoteService.getUserNoteById(this.userId).subscribe(data => {
+      if (data.note) this.formNote.get('fcNotes')?.setValue(data.note)
+    }, err => {
+      this.notificationService.error(err);
+    });
   }
 
   initForm() {
