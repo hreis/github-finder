@@ -3,8 +3,15 @@
 </app-github-finder-textbox>
 
 <div *ngIf="userReposLib$ | async as userReposLib">
-    <app-card-github-profile (sendToPreviouPage)="previouPage($event)"
-     class="card-github-profile" [userReposLib]="userReposLib"></app-card-github-profile>
+    <button mat-mini-fab color="primary" (click)="previouPage()" class="btn-return">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <app-card-github-profile
+     class="card-github-profile" 
+     [userReposLib]="userReposLib"
+     (refresh)="refreshPage($event)"
+     >
+    </app-card-github-profile>
 </div>
 
 <mat-card *ngIf="loading" class="card-loading">

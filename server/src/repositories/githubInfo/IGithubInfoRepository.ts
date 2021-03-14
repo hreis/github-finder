@@ -8,4 +8,5 @@ export interface IGithubInfoRepository {
     insertUserNote(userId: number, note: string): Promise<boolean>;
     getUserNoteById(userId: number): Promise<GitHubUserNote>;
     updateUserNote(userId: number, note: string): Promise<boolean>;
+    setUserNote(userId: number, note: string): Promise<boolean>;
 }

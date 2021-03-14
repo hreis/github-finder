@@ -1,28 +1,29 @@
-// import { Application, Request, Response } from 'express';
-// import { IS_PRODUCTION } from "./secrets";
-// import logger from "./logger";
+import httpStatusCodes from 'http-status-codes';
 
-// export function loadErrorHandlers(error) {
+export interface APIError {
+  message: string;
+  code: number;
+  codeAsString?: string; //allow to override the default error code as string
+  description?: string;
+  documentation?: string;
+}
 
-//   if (error.message.includes('404')) {
-//     return Response.status(404).json({
-//       message: error.message || 'Not Found.'
-//     })
-//   }
-//   else {
-//     return response.status(400).json({
-//       message: error.message || 'Unexpected error.'
-//     })
-//   }
+export interface APIErrorResponse extends Omit<APIError, 'codeAsString'> {
+  error: string;
+}
 
-//   //   logger.error(err);
-//   //   res.status(err.status || 500);
-//   //   res.json({
-//   //     errors: {
-//   //       message: err.message,
-//   //       error  : !IS_PRODUCTION ? err : {}
-//   //     }
-//   //   });
-//   // });
-
-// }
+export default class ApiError {
+  public static format(error: APIError): APIErrorResponse {
+    return {
+      ...{
+        message: error.message,
+        code: error.code,
+        error: error.codeAsString
+          ? error.codeAsString
+          : httpStatusCodes.getStatusText(error.code),
+      },
+      ...(error.documentation && { documentation: error.documentation }),
+      ...(error.description && { description: error.description }),
+    };
+  }
+}

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
-// import { loadErrorHandlers } from "../../utils/error-handling";
 import { GetGithubUserUseCase } from "./getGithubUserUseCase";
-
+import ApiError from '../../utils/error-handling';
 export class GetGithubUserController {
 
     constructor(private GetGithubUserUseCase: GetGithubUserUseCase) { }
@@ -20,18 +19,11 @@ export class GetGithubUserController {
 
         } catch (error) {
 
-            if (error.message.includes('404')) {
-                return response.status(404).json({
-                    message: error.message || 'Not Found.'
-                })
-            }
-            else {
-                return response.status(400).json({
-                    message: error.message || 'Unexpected error.'
-                })
-            }
-
+            response.status(404).send(
+                ApiError.format({
+                    code: 400,
+                    message: 'Unexpected error.',
+                }));
         }
-
     }
 }

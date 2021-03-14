@@ -43,4 +43,11 @@ export class GithubFinderService {
 
   }
 
+  setUserNoteById(userId: number, note: string): Observable<boolean> {
+
+    return this.http.post<boolean>
+    (`${environment.apiUrl}/githubinfo/setUserNoteById`, { userId, note })
+
+  }
+
 }

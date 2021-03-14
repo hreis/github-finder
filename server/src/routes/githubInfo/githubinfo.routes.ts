@@ -3,6 +3,7 @@ import { getGithubUserController } from "../../useCases/getGithubUser";
 import { getGithubRepositoriesController } from "../../useCases/getGithubRepositories";
 import { insertUserNotesController } from "../../useCases/insertUserNote";
 import { getUserNoteByIdController } from "../../useCases/getUserNoteById";
+import { setUserNoteByIdController } from "../../useCases/setUserNoteById";
 
 const router = Router();
 
@@ -24,6 +25,10 @@ router.post('/getUserNoteById', (request, response) => {
 
 router.put('/updateUserNoteById', (request, response) => {
     return getUserNoteByIdController.handle(request, response);
+});
+
+router.post('/setUserNoteById', (request, response) => {
+    return setUserNoteByIdController.handle(request, response);
 });
 
 export default router;

@@ -21,6 +21,7 @@ export class GithubuserEditDialogComponent implements OnInit, OnDestroy {
 
   updateGithubNote$: Subscription;
   insertGithubNote$: Subscription;
+  note: string;
 
   ngOnInit(): void {
   }
@@ -31,36 +32,19 @@ export class GithubuserEditDialogComponent implements OnInit, OnDestroy {
   }
 
   save() {
-
     const note = this.noteGithubUserComponent.formNote.get('fcNotes')?.value;
-
-    if (this.noteGithubUserComponent.type === 'update') this.updateNote(note);
-    else this.insertNote(note);
-
+    this.setNote(note);
   }
 
-  updateNote(note: string) {
+  setNote(note: string) {
 
-    this.updateGithubNote$ = this.githubFinderService.updateUserNoteById(this.data.userId, note)
-      .subscribe(inserted => {
-        debugger
-        if (inserted) {
-          this.notificationService.success('Successfully Edited');
-        }
-      }, err => {
-        this.notificationService.error(err);
-      });
+    this.updateGithubNote$ = this.githubFinderService.setUserNoteById(this.data.userId, note)
+      .subscribe(seted => {
 
-  }
-
-  insertNote(note: string) {
-
-    this.insertGithubNote$ = this.githubFinderService.insertGithubNote(this.data.userId, note)
-      .subscribe(inserted => {
-        debugger
-        if (inserted) {
-          this.notificationService.success('Successfully Edited');
-        }
+        if (seted) {
+          this.notificationService.success('Successfully Edited')
+          this.note = note
+        };
       }, err => {
         this.notificationService.error(err);
       });

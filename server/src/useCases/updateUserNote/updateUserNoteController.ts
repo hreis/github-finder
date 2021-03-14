@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import ApiError from "../../utils/error-handling";
 import { UpdateUserNoteUseCase } from "./updateUserNoteUseCase";
 
 export class UpdateUserNoteController {
@@ -19,9 +20,11 @@ export class UpdateUserNoteController {
             return response.send(repositories);
 
         } catch (error) {
-            return response.status(400).json({
-                message: error.message || 'Unexpected error.'
-            })
+            response.status(404).send(
+                ApiError.format({
+                    code: 400,
+                    message: 'Unexpected error.',
+                }));
         }
 
     }

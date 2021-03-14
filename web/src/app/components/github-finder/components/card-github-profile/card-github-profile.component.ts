@@ -17,8 +17,8 @@ export class CardGithubProfileComponent implements OnInit {
   formGroup: FormGroup;
 
   @Input() userReposLib: (GitHubUser | GitHubRepository[])[];
-  @Output() sendToPreviouPage: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @ViewChild(NoteGithubUserComponent) noteGithubUserComponent: NoteGithubUserComponent
+  @ViewChild(NoteGithubUserComponent) noteGithubUserComponent: NoteGithubUserComponent;
+  @Output() refresh: EventEmitter<string> = new EventEmitter<string>();
 
   githubuser: GitHubUser;
   repositories: GitHubRepository[] = [];
@@ -51,7 +51,8 @@ export class CardGithubProfileComponent implements OnInit {
   }
 
   setDistinctLanguage() {
-    this.distinctArray = this.languages.filter((value, index, self) => self.map(x => x.language).indexOf(value.language) == index);
+    debugger
+    this.distinctArray = this.languages.filter(x => x.language != null).filter((value, index, self) => self.map(x => x.language).indexOf(value.language) == index);
   }
 
   sortDistinctArrayByPercentage() {
@@ -68,9 +69,11 @@ export class CardGithubProfileComponent implements OnInit {
 
   setQtyAndPercentageLanguage() {
     this.distinctArray.forEach((e) => {
+      debugger
       let qty = this.languages.filter(x => x.language === e.language).length;
       e.count = qty;
-      e.percentage = `${((qty / this.languages.length) * 100).toFixed(2)}%`;
+      let teste = ((qty / this.languages.filter(x => x.language != null).length) * 100).toFixed(2);
+      e.percentage = parseFloat(teste);
     });
   }
 
@@ -80,6 +83,7 @@ export class CardGithubProfileComponent implements OnInit {
   }
 
   setValueOnFormFields() {
+
     this.formGroup.setValue({
       fcFollowers: this.githubuser.followers,
       fcPublicRepositories: this.githubuser.public_repos,
@@ -92,13 +96,11 @@ export class CardGithubProfileComponent implements OnInit {
   getRepositoryInfos() {
 
     this.repositories.forEach((e) => {
-
       this.stars += e.stargazers_count;
-      this.watchers += e.watchers_count;
+      this.watchers += e.watchers;
       this.forks += e.forks_count;
 
       this.setLanguageInfo(e);
-
     });
   }
 
@@ -106,23 +108,24 @@ export class CardGithubProfileComponent implements OnInit {
     this.languages.push({
       language: gitHubRepository.language,
       count: 0,
-      percentage: '',
+      percentage: 0,
     });
-
-  }
-
-  goBack() {
-    this.sendToPreviouPage.emit(true);
   }
 
   editGihubUser() {
-    debugger
-
     const note = this.noteGithubUserComponent.formNote.get('fcNotes')?.value;
 
-    this.dialog.open(GithubuserEditDialogComponent, {
+    let dialogRef = this.dialog.open(GithubuserEditDialogComponent, {
       data: { userId: this.githubuser.id, note }
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if(data) this.noteGithubUserComponent.formNote.get('fcNotes')?.setValue(data);
     })
+  }
+
+  refreshUser() {
+    this.refresh.emit(this.githubuser.login);
   }
 
 }

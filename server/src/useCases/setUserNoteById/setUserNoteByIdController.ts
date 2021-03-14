@@ -1,22 +1,23 @@
 import { Request, Response } from "express";
 import ApiError from "../../utils/error-handling";
-import { GetGithubRepositoriesUseCase } from "./getGithubRepositoriesUseCase";
+import { SetUserNoteByIdUseCase } from "./setUserNoteByIdUseCase";
 
-export class GetGithubRepositoriesController {
+export class SetUserNoteByIdController {
 
-    constructor(private getGithubRepositoriesUseCase: GetGithubRepositoriesUseCase) { }
+    constructor(private setUserNoteByIdUseCase: SetUserNoteByIdUseCase) { }
 
     async handle(request: Request, response: Response): Promise<Response> {
 
-        const { username } = request.body;
+        const { userId, note } = request.body;
 
         try {
 
-            const repositories = await this.getGithubRepositoriesUseCase.execute({
-                username
+            const seted = await this.setUserNoteByIdUseCase.execute({
+                userId,
+                note
             });
 
-            return response.send(repositories);
+            return response.send(seted);
 
         } catch (error) {
             response.status(404).send(

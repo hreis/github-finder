@@ -49,8 +49,13 @@ export class GithubfinderComponent implements OnInit {
         }));
   }
 
-  previouPage(ae: boolean) {
+  previouPage() {
     this.success = !this.success;
+  }
+
+  refreshPage(username: string) {
+    this.success = !this.success;
+    this.formHasBeenSubmited(username);
   }
 
 }

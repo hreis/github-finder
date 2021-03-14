@@ -11,13 +11,13 @@
         </mat-card-header>
 
         <mat-card-content>
-            <app-note-github-user></app-note-github-user>
+            <app-note-github-user [isEditable]="false" [note]="data.note"></app-note-github-user>
         </mat-card-content>
 
     </mat-card>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button [mat-dialog-close]="note">Close</button>
     <button mat-button (click)="save()" color="primary">Save</button>
 </mat-dialog-actions>
