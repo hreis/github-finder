@@ -23,9 +23,9 @@ Things to upgrade:
   So they retrieving the same value. So calling like contributors endpoint by repository we can make a
   Math that will return right value about forks, etc...
 - Cache is a big question on this project. 
-  Since i don't know if it is viable to use cache when the data can change every minute.
+  Since i don't know if it is viable to use cache when the data can be changed on every minute.
   Thats why i developed the /util/cache but not using yet;
-- The project don't using NgRx as state management tool yet;
+- The project are not using NgRx as state management tool yet;
 - Project don't have tests yet;
 
 DataBase to save notes:
