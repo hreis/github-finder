@@ -1,7 +1,7 @@
 # github-finder
 this is a simply app that get GitHub user's infos;
 
-To start the project follows the steps below:
+To start the project follow the steps below:
 
 on /server folder run: ```npm install``` & ```npm run start```
 on /web run ```npm install``` & ```ng serve```
