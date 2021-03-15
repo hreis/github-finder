@@ -27,6 +27,7 @@ Things to upgrade:
   Thats why i developed the /util/cache but not using yet;
 - The project are not using NgRx as state management tool yet;
 - Project don't have tests yet;
+- resilience on api;
 
 DataBase to save notes:
 
